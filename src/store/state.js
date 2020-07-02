@@ -1,3 +1,4 @@
 export default {
-  listPost: []
+  listPost: [],
+  isLoading: false,
 };

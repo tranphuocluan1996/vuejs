@@ -5,11 +5,13 @@
 
 		<router-view></router-view>
 		<footer-page v-if="isFooter"/>
+		<loading v-bind:class="{show: isLoading}"/>
 	</div>
 </template>
 
 <script>
-
+import {mapState} from 'vuex'
+import Loading from './components/Loading'
 import HeaderPage from './components/HeaderPage'
 import FooterPage from './components/FooterPage'
 export default {
@@ -21,7 +23,8 @@ export default {
 	},
 	components:{
 		HeaderPage,
-		FooterPage
+		FooterPage,
+		Loading
 	},
 	//created để gọi api
 		created() {
@@ -30,7 +33,9 @@ export default {
 		},
 
 	computed: {
-		
+		...mapState([
+			'isLoading'
+		]),
 		isHeader(){
 			//tạo 1 cái hàm xử lý :
 			// nếu cái hàm này === true thì có header 
@@ -44,6 +49,7 @@ export default {
 			}else return false;
 
 		},
+
 		
 
 		isFooter(){
