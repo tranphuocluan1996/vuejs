@@ -38,7 +38,7 @@ export default {
 		var tagIndex = to.query.tagIndex
 		if(tagIndex){
 			//commit thang actions category
-			this.getListNewByCategory({tagIndex});
+			this.getListPostHasPaging({tagIndex:tagIndex});
 
 		}else{
 			//tagIndex không có giá trị 
@@ -55,7 +55,7 @@ export default {
     },
   methods: {
 	  ...mapActions([
-		  'getListNewByCategory',
+
 		  'getListPostHasPaging'
 	  ])
   },
