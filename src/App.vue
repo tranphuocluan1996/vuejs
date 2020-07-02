@@ -1,60 +1,93 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+	<div id="app">
+		
+		<header-page v-if="isHeader" />
+
+		<router-view></router-view>
+		<footer-page v-if="isFooter"/>
+	</div>
 </template>
 
 <script>
+
+import HeaderPage from './components/HeaderPage'
+import FooterPage from './components/FooterPage'
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
+	name: 'app',
+	data () {
+		return {
+		//  title:"hello lifeCycle"
+		}
+	},
+	components:{
+		HeaderPage,
+		FooterPage
+	},
+	//created để gọi api
+		created() {
+			//console.log(this.$store);
+			this.$store.dispatch('getListPostHasPaging',{});
+		},
+
+	computed: {
+		
+		isHeader(){
+			//tạo 1 cái hàm xử lý :
+			// nếu cái hàm này === true thì có header 
+			// nếu hàm này === false thì không có header 
+			
+			var routeArr = this.$route.name;
+			var NoHeader = ['login', 'register'];
+
+			if(NoHeader.indexOf(routeArr) === -1){
+				return true;
+			}else return false;
+
+		},
+		
+
+		isFooter(){
+			var routeArr = this.$route.name;
+			var NoHeader = ['home-page', 'post-detail'];
+
+			if(NoHeader.indexOf(routeArr) === -1){
+				return true;
+			}else return false;
+		},
+
+	},
+
+	// beforeCreate(){
+	// 	//console.log('beforeCreate',this.title, document.querySelector('#app'));
+	// 	//underfine bởi vì tại thời điểm này đối tượng vue chưa xây dựng dc hệ thống phản ứng
+	// },
+	// created(){
+	// 	//gọi api, call ajax để lấy dữ liệu từ sever về 
+	// 	//console.log('created',this.title,document.querySelector('#app'));
+	// },
+	// beforeMount(){
+	// 	//console.log('beforeMount',this.title,document.querySelector('#app'));
+	// },
+	// mounted(){
+	// 	// dùng thư viện liên quan đến jquerry, js thông thường truy suất vào thêm class
+	// 	// phải qua mounted dữ liệu của chúng ta mới từ DOM - > cấu trúc HTML
+	// 	//console.log('mounted',this.title,document.querySelector('#app'));
+	// },
+	// beforeUpdate(){
+	// 	//dc chạy khi có bất kỳ sự thay đổi gì về dữ liệu bắt sự kiện
+	// 	//console.log('beforeUpdate',this.title,document.querySelector('#app'));
+	// },
+	// updated() {
+	// 	//console.log('updated',this.title,document.querySelector('#app'));
+	// },
+	// destroyed(){
+	// 	// Huỷ bỏ các thư viện của bên thứ 3
+	// 	//console.log('destroyed',this.title,document.querySelector('#app'));
+	// }
+
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
